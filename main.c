@@ -38,6 +38,7 @@ static void keyboard_callback(unsigned char key, int x, int y)
 
 static void mouse_callback(int key, int state, int x, int y)
 {
+	// Provera koji je key pritisnut i gde
 	printf("%d %d %d %d\n", key, state, x, y);
 }
 
