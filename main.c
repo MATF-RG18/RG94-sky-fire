@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include <GL\glut.h>
+#include <SOIL\SOIL.h>
 
 static void on_display(void);
 static void keyboard_callback(unsigned char key, int x, int y);
@@ -18,6 +19,11 @@ int main(int argc, char **argv)
 	glutMouseFunc(mouse_callback);
 	glutKeyboardFunc(keyboard_callback);
 	glutDisplayFunc(on_display);
+	
+	int w, h;
+	unsigned char* image = SOIL_load_image("aircraft.jpeg", &w, &h, 0,
+	SOIL_LOAD_RGB);
+	
 
 	glClearColor(0.75f, 0.0f, 0.75f, 0.0f);
 	printf("Starting the game!\n");
