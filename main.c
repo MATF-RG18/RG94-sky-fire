@@ -1,7 +1,8 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include <GL\glut.h>
-#include <SOIL\SOIL.h>
+
+//FLOAT LIST
 
 typedef struct _list_node
 {
@@ -18,7 +19,7 @@ typedef struct _linked_list
 
 list_node* add_node(list_node *tail, float x, float y, float z)
 {
-	list_node *new_node = malloc(sizeof())
+	list_node *new_node = malloc(sizeof(list_node));
 	new_node -> x = x;
 	new_node -> y = y;
 	new_node -> z = z;
@@ -40,6 +41,7 @@ void list_init(linked_list *list)
 void list_add(linked_list *list, float x, float y, float z)
 {
 	list -> tail = add_node(list -> tail, x, y, z);
+	if(list -> head == NULL) list -> head = list -> tail;
 	list -> count ++;
 }
 
@@ -57,7 +59,97 @@ list_node* list_get(linked_list *list, int index)
 	return NULL;
 }
 
-void load_wavefont_mesh(const char *filepath)
+void list_node_free(list_node *node)
+{
+	if(!node) return;
+	list_node_free(node -> next);
+	free(node);
+}
+
+void list_free(linked_list *list)
+{
+	if(!list) return;
+	list_node_free(list -> head);
+	
+}
+
+// INT LIST
+typedef struct _int_list_node
+{
+	int x;
+	struct _int_list_node *next;
+}int_list_node;
+
+typedef struct _int_linked_list
+{
+	int_list_node *head, *tail;
+	int count;
+}int_linked_list;
+
+
+int_list_node* int_add_node(int_list_node *tail, int x)
+{
+	int_list_node *new_node = malloc(sizeof(int_list_node));
+	new_node -> x = x;
+	new_node -> next = NULL;
+	
+	if(!tail) return new_node;
+	
+	tail -> next = new_node;
+	return new_node;	
+}
+
+void int_list_init(int_linked_list *list)
+{
+	list -> count = 0;
+	list -> head = NULL;
+	list -> tail = NULL;
+}
+
+void int_list_add(int_linked_list *list, int x)
+{
+	list -> tail = int_add_node(list -> tail, x);
+	if(list -> head == NULL) list -> head = list -> tail;
+	list -> count ++;
+}
+
+int_list_node* int_list_get(int_linked_list *list, int index)
+{
+	int_list_node *i;
+	for( i = list -> head; i != NULL; i = i -> next)
+	{
+		if(!index)
+		{
+			return i;
+		}
+		index--;
+	}
+	return NULL;
+}
+
+void int_list_node_free(int_list_node *node)
+{
+	if(!node) return;
+	int_list_node_free(node -> next);
+	free(node);
+}
+
+void int_list_free(int_linked_list *list)
+{
+	if(!list) return;
+	int_list_node_free(list -> head);
+	
+}
+
+typedef struct _mesh
+{
+	int data_buffer;
+	int index_buffer;
+	
+}mesh;
+
+
+void load_wavefont_mesh(const char *filepath, mesh *m)
 {
 	linked_list vertices, uv_coordinates, normals;
 	list_init(&vertices);
@@ -92,17 +184,118 @@ void load_wavefont_mesh(const char *filepath)
 			break;
 		}
 		
-		int total = (3 * 2 + 2) * vertices.count;
-		float *float_buffer = malloc(total * sizeof(float));
-		
-		
-		
-		
-		
-		free(float_buffer);
 	}
 	
 	
+	int_linked_list vertex_indices, uv_indices, normal_indices;
+	int_list_init(&vertex_indices);
+	int_list_init(&uv_indices);
+	int_list_init(&normal_indices);
+	int fake_uvs = 0;
+	
+	
+	while(!feof(f))
+	{
+		while(line[0] != 'f' && !feof(f))
+		{
+			fgets(line, 256, f);
+		}
+		
+		int v1, v2, v3;
+		int n1, n2, n3;
+		int t1, t2, t3;
+		
+		int matches = sscanf(line + 2, "%d/%d/%d %d/%d/%d %d/%d/%d", &v1, &t1, &n1, &v2, &t2, &n2, &v3, &t3, &n3);
+		if(matches != 9)
+		{
+			matches = sscanf(line + 2, "%d//%d %d//%d %d//%d", &v1, &n1, &v2, &n2, &v3, &n3);
+			if(matches != 6)
+			{
+				fprintf(stderr, "File can't be read, try exporting with other options [matches = %d]", matches);
+				fprintf(stderr, "error on: %s\n", line);
+				return;
+			}
+			else
+			{
+				fake_uvs = 1;
+				t1 = t2 = t3 = 1;
+			}
+			
+			
+		}
+		
+		int_list_add(&vertex_indices, v1);
+		int_list_add(&vertex_indices, v2);
+		int_list_add(&vertex_indices, v3);
+		
+		int_list_add(&uv_indices, t1);
+		int_list_add(&uv_indices, t2);
+		int_list_add(&uv_indices, t3);
+		
+		int_list_add(&normal_indices, n1);
+		int_list_add(&normal_indices, n2);
+		int_list_add(&normal_indices, n3);
+		
+		fgets(line, 256, f);
+		
+		
+	}
+	
+	if(fake_uvs)
+		list_add(&uv_coordinates, 0.0f, 0.0f, 0.0f);
+	
+	
+	float *float_buffer = malloc(vertex_indices.count * 8 * sizeof(float));
+	
+	int i;
+	for(i = 0; i < vertex_indices.count; i++)
+	{
+				
+		int vert_ind = int_list_get(&vertex_indices, i) -> x;
+		int uv_ind = int_list_get(&uv_indices, i) -> x;
+		int norm_ind = int_list_get(&normal_indices, i) -> x;
+		
+
+		list_node *vertex_data = list_get(&vertices, vert_ind - 1);
+		list_node *uv_data = list_get(&uv_coordinates, uv_ind - 1);
+		list_node *normal_data = list_get(&normals, norm_ind - 1);
+		
+		
+		float_buffer[8 * i] = vertex_data -> x;
+		float_buffer[8 * i + 1] = vertex_data -> y;
+		float_buffer[8 * i + 2] = vertex_data -> z;
+		
+		float_buffer[8 * i + 3] = uv_data -> x;
+		float_buffer[8 * i + 4] = uv_data -> y;
+		
+		float_buffer[8 * i + 5] = normal_data -> x;
+		float_buffer[8 * i + 6] = normal_data -> y;
+		float_buffer[8 * i + 7] = normal_data -> z;
+		
+		
+		
+	}
+	// GL BUFFER DATA
+	
+	/*
+	int data_buffer;
+	glGenBuffers(1, &data_buffer);
+	glBindBuffer(GL_ARRAY_BUFFER, data_buffer);
+	glBufferData(GL_ARRAY_BUFFER, vertex_indices.count * 8 * sizeof(float), float_buffer, GL_STATIC_DRAW);
+	
+	glDeleteBuffers(1, &data_buffer);
+	
+	*/
+	
+	
+	free(float_buffer);
+	list_free(&vertices);
+	list_free(&uv_coordinates);
+	list_free(&normals);
+	
+	int_list_free(&vertex_indices);
+	int_list_free(&uv_indices);
+	int_list_free(&normal_indices);
 	
 	fclose(f);
 }
@@ -128,6 +321,8 @@ int main(int argc, char **argv)
 	glutIdleFunc (on_display);
 	glutReshapeFunc (reshape);
 	
+	
+	load_wavefont_mesh("res\\kocka.obj");
 
 	//glClearColor(0.75f, 0.0f, 0.75f, 0.0f);
 	printf("Starting the game!\n");
