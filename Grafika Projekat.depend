@@ -1,0 +1,737 @@
+# depslib dependency file v1.0
+1564106365 source:d:\raf\diplomski\projekat\waves\main.c
+	<stdio.h>
+	<stdlib.h>
+	<glad\glad.h>
+	<GLFW\glfw3.h>
+	<complex.h>
+	<vector.h>
+	<helpers.h>
+	<ocean.h>
+
+1563897248 source:d:\raf\diplomski\projekat\waves\src\glad\glad.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<glad/glad.h>
+	<windows.h>
+	<winapifamily.h>
+	<dlfcn.h>
+
+1563897248 d:\raf\diplomski\projekat\waves\include\glad\glad.h
+	<KHR/khrplatform.h>
+
+1563897248 d:\raf\diplomski\projekat\waves\include\khr\khrplatform.h
+	<stdint.h>
+	<inttypes.h>
+	<stdint.h>
+
+1555377563 d:\raf\diplomski\projekat\waves\include\glfw\glfw3.h
+	<stddef.h>
+	<stdint.h>
+	<GLES/gl.h>
+	<GLES/glext.h>
+	<GLES2/gl2.h>
+	<GLES2/gl2ext.h>
+	<GLES3/gl3.h>
+	<GLES2/gl2ext.h>
+	<GLES3/gl31.h>
+	<GLES2/gl2ext.h>
+	<GLES3/gl32.h>
+	<GLES2/gl2ext.h>
+	<OpenGL/gl3.h>
+	<OpenGL/gl3ext.h>
+	<GL/glcorearb.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glext.h>
+	<GL/glu.h>
+	<vulkan/vulkan.h>
+
+1563970205 d:\raf\diplomski\projekat\waves\include\complex.h
+
+1564074350 source:d:\raf\diplomski\projekat\waves\src\complex.c
+	<stdio.h>
+	<stdlib.h>
+	<complex.h>
+
+1564074360 source:d:\raf\diplomski\projekat\waves\src\vector.c
+	<math.h>
+	<stdlib.h>
+	<vector.h>
+
+1564025878 d:\raf\diplomski\projekat\waves\include\vector.h
+
+1564074372 source:d:\raf\diplomski\projekat\waves\src\ocean.c
+	<stdlib.h>
+	<ocean.h>
+
+1564104659 source:d:\raf\diplomski\projekat\waves\src\helpers.c
+	<stdio.h>
+	<stdlib.h>
+	<helpers.h>
+
+1564069178 d:\raf\diplomski\projekat\waves\include\ocean.h
+	<stdlib.h>
+	<glad\glad.h>
+	<complex.h>
+	<vector.h>
+	<constants.h>
+	<math.h>
+
+1564069031 d:\raf\diplomski\projekat\waves\include\constants.h
+
+1564104873 d:\raf\diplomski\projekat\waves\include\helpers.h
+	<glad\glad.h>
+
+1565891545 source:c:\grafika\waves\main.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<glad\glad.h>
+	<GLFW\glfw3.h>
+	<complex.h>
+	<vector.h>
+	<helpers.h>
+	<ocean.h>
+	<stb_image.h>
+
+1563897248 c:\grafika\waves\include\glad\glad.h
+	<KHR/khrplatform.h>
+
+1563897248 c:\grafika\waves\include\khr\khrplatform.h
+	<stdint.h>
+	<inttypes.h>
+	<stdint.h>
+
+1555377563 c:\grafika\waves\include\glfw\glfw3.h
+	<stddef.h>
+	<stdint.h>
+	<GLES/gl.h>
+	<GLES/glext.h>
+	<GLES2/gl2.h>
+	<GLES2/gl2ext.h>
+	<GLES3/gl3.h>
+	<GLES2/gl2ext.h>
+	<GLES3/gl31.h>
+	<GLES2/gl2ext.h>
+	<GLES3/gl32.h>
+	<GLES2/gl2ext.h>
+	<OpenGL/gl3.h>
+	<OpenGL/gl3ext.h>
+	<GL/glcorearb.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glext.h>
+	<GL/glu.h>
+	<vulkan/vulkan.h>
+
+1563970205 c:\grafika\waves\include\complex.h
+
+1564025878 c:\grafika\waves\include\vector.h
+
+1565881152 c:\grafika\waves\include\helpers.h
+	<glad\glad.h>
+
+1564069178 c:\grafika\waves\include\ocean.h
+	<stdlib.h>
+	<glad\glad.h>
+	<complex.h>
+	<vector.h>
+	<constants.h>
+	<math.h>
+
+1564069031 c:\grafika\waves\include\constants.h
+
+1564074350 source:c:\grafika\waves\src\complex.c
+	<stdio.h>
+	<stdlib.h>
+	<complex.h>
+
+1563897248 source:c:\grafika\waves\src\glad\glad.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<glad/glad.h>
+	<windows.h>
+	<winapifamily.h>
+	<dlfcn.h>
+
+1565885177 source:c:\grafika\waves\src\helpers.c
+	<stdio.h>
+	<stdlib.h>
+	<helpers.h>
+
+1564074360 source:c:\grafika\waves\src\vector.c
+	<math.h>
+	<stdlib.h>
+	<vector.h>
+
+1565879713 source:c:\grafika\waves\src\ocean.c
+	<stdlib.h>
+	<ocean.h>
+
+1565886590 c:\grafika\waves\include\stb_image.h
+	"stb_image.h"
+	<stdio.h>
+	<stdlib.h>
+	<stdarg.h>
+	<stddef.h>
+	<stdlib.h>
+	<string.h>
+	<limits.h>
+	<math.h>
+	<stdio.h>
+	<assert.h>
+	<stdint.h>
+	<emmintrin.h>
+	<intrin.h>
+	<arm_neon.h>
+
+1564074350 source:c:\users\jelena\desktop\grafikanovo\waves\src\complex.c
+	<stdio.h>
+	<stdlib.h>
+	<complex.h>
+
+1563970205 c:\users\jelena\desktop\grafikanovo\waves\include\complex.h
+
+1563897248 source:c:\users\jelena\desktop\grafikanovo\waves\src\glad\glad.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<glad/glad.h>
+	<windows.h>
+	<winapifamily.h>
+	<dlfcn.h>
+
+1563897248 c:\users\jelena\desktop\grafikanovo\waves\include\glad\glad.h
+	<KHR/khrplatform.h>
+
+1563897248 c:\users\jelena\desktop\grafikanovo\waves\include\khr\khrplatform.h
+	<stdint.h>
+	<inttypes.h>
+	<stdint.h>
+
+1565885177 source:c:\users\jelena\desktop\grafikanovo\waves\src\helpers.c
+	<stdio.h>
+	<stdlib.h>
+	<helpers.h>
+
+1565881152 c:\users\jelena\desktop\grafikanovo\waves\include\helpers.h
+	<glad\glad.h>
+
+1565879713 source:c:\users\jelena\desktop\grafikanovo\waves\src\ocean.c
+	<stdlib.h>
+	<ocean.h>
+
+1564069178 c:\users\jelena\desktop\grafikanovo\waves\include\ocean.h
+	<stdlib.h>
+	<glad\glad.h>
+	<complex.h>
+	<vector.h>
+	<constants.h>
+	<math.h>
+
+1564025878 c:\users\jelena\desktop\grafikanovo\waves\include\vector.h
+
+1566045575 c:\users\jelena\desktop\grafikanovo\waves\include\constants.h
+
+1564074360 source:c:\users\jelena\desktop\grafikanovo\waves\src\vector.c
+	<math.h>
+	<stdlib.h>
+	<vector.h>
+
+1566302209 source:c:\users\jelena\desktop\grafikanovo\waves\main.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<glad\glad.h>
+	<GLFW\glfw3.h>
+	<helpers.h>
+	<models.h>
+	<string.h>
+	<matrices.h>
+	<stb_image.h>
+	<Assimp\include\assimp\cimport.h>
+	<Assimp\include\assimp\scene.h>
+	<Assimp\include\assimp\postprocess.h>
+	<constants.h>
+
+1555377563 c:\users\jelena\desktop\grafikanovo\waves\include\glfw\glfw3.h
+	<stddef.h>
+	<stdint.h>
+	<GLES/gl.h>
+	<GLES/glext.h>
+	<GLES2/gl2.h>
+	<GLES2/gl2ext.h>
+	<GLES3/gl3.h>
+	<GLES2/gl2ext.h>
+	<GLES3/gl31.h>
+	<GLES2/gl2ext.h>
+	<GLES3/gl32.h>
+	<GLES2/gl2ext.h>
+	<OpenGL/gl3.h>
+	<OpenGL/gl3ext.h>
+	<GL/glcorearb.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glext.h>
+	<GL/glu.h>
+	<vulkan/vulkan.h>
+
+1565886590 c:\users\jelena\desktop\grafikanovo\waves\include\stb_image.h
+	"stb_image.h"
+	<stdio.h>
+	<stdlib.h>
+	<stdarg.h>
+	<stddef.h>
+	<stdlib.h>
+	<string.h>
+	<limits.h>
+	<math.h>
+	<stdio.h>
+	<assert.h>
+	<stdint.h>
+	<emmintrin.h>
+	<intrin.h>
+	<arm_neon.h>
+
+1490905136 c:\users\jelena\desktop\grafikanovo\waves\include\assimp\include\assimp\cimport.h
+	"types.h"
+	"importerdesc.h"
+
+1490905136 c:\users\jelena\desktop\grafikanovo\waves\include\assimp\include\assimp\types.h
+	<sys/types.h>
+	<math.h>
+	<stddef.h>
+	<string.h>
+	<limits.h>
+	"defs.h"
+	"vector3.h"
+	"vector2.h"
+	"color4.h"
+	"matrix3x3.h"
+	"matrix4x4.h"
+	"quaternion.h"
+	<cstring>
+	<new>
+	<string>
+	"./Compiler/pushpack1.h"
+	"./Compiler/poppack1.h"
+	"vector2.inl"
+	"vector3.inl"
+	"color4.inl"
+	"quaternion.inl"
+	"matrix3x3.inl"
+	"matrix4x4.inl"
+
+1490905136 c:\users\jelena\desktop\grafikanovo\waves\include\assimp\include\assimp\defs.h
+
+1490905136 c:\users\jelena\desktop\grafikanovo\waves\include\assimp\include\assimp\vector3.h
+	<cmath>
+	<math.h>
+	"./Compiler/pushpack1.h"
+	"./Compiler/poppack1.h"
+
+1490905136 c:\users\jelena\desktop\grafikanovo\waves\include\assimp\include\assimp\compiler\pushpack1.h
+
+1490905136 c:\users\jelena\desktop\grafikanovo\waves\include\assimp\include\assimp\compiler\poppack1.h
+
+1490905136 c:\users\jelena\desktop\grafikanovo\waves\include\assimp\include\assimp\vector2.h
+	<cmath>
+	<math.h>
+	"./Compiler/pushpack1.h"
+	"./Compiler/poppack1.h"
+
+1490905136 c:\users\jelena\desktop\grafikanovo\waves\include\assimp\include\assimp\color4.h
+	"./Compiler/pushpack1.h"
+	"./Compiler/poppack1.h"
+
+1490905136 c:\users\jelena\desktop\grafikanovo\waves\include\assimp\include\assimp\matrix3x3.h
+	"./Compiler/pushpack1.h"
+	"./Compiler/poppack1.h"
+
+1490905136 c:\users\jelena\desktop\grafikanovo\waves\include\assimp\include\assimp\matrix4x4.h
+	"vector3.h"
+	"./Compiler/pushpack1.h"
+	"./Compiler/poppack1.h"
+
+1490905136 c:\users\jelena\desktop\grafikanovo\waves\include\assimp\include\assimp\quaternion.h
+
+1490905136 c:\users\jelena\desktop\grafikanovo\waves\include\assimp\include\assimp\vector2.inl
+	"vector2.h"
+	<cmath>
+
+1490905136 c:\users\jelena\desktop\grafikanovo\waves\include\assimp\include\assimp\vector3.inl
+	"vector3.h"
+	<cmath>
+
+1490905136 c:\users\jelena\desktop\grafikanovo\waves\include\assimp\include\assimp\color4.inl
+	"color4.h"
+
+1490905136 c:\users\jelena\desktop\grafikanovo\waves\include\assimp\include\assimp\quaternion.inl
+	"quaternion.h"
+	<cmath>
+
+1490905136 c:\users\jelena\desktop\grafikanovo\waves\include\assimp\include\assimp\matrix3x3.inl
+	"matrix3x3.h"
+	"matrix4x4.h"
+	<algorithm>
+	<cmath>
+	<limits>
+
+1490905136 c:\users\jelena\desktop\grafikanovo\waves\include\assimp\include\assimp\matrix4x4.inl
+	"matrix4x4.h"
+	"matrix3x3.h"
+	"quaternion.h"
+	<algorithm>
+	<limits>
+	<cmath>
+
+1490905136 c:\users\jelena\desktop\grafikanovo\waves\include\assimp\include\assimp\importerdesc.h
+
+1490905136 c:\users\jelena\desktop\grafikanovo\waves\include\assimp\include\assimp\scene.h
+	"types.h"
+	"texture.h"
+	"mesh.h"
+	"light.h"
+	"camera.h"
+	"material.h"
+	"anim.h"
+	"metadata.h"
+
+1490905136 c:\users\jelena\desktop\grafikanovo\waves\include\assimp\include\assimp\texture.h
+	"types.h"
+	"./Compiler/pushpack1.h"
+	"./Compiler/poppack1.h"
+
+1490905136 c:\users\jelena\desktop\grafikanovo\waves\include\assimp\include\assimp\mesh.h
+	"types.h"
+
+1490905136 c:\users\jelena\desktop\grafikanovo\waves\include\assimp\include\assimp\light.h
+	"types.h"
+
+1490905136 c:\users\jelena\desktop\grafikanovo\waves\include\assimp\include\assimp\camera.h
+	"types.h"
+
+1490905136 c:\users\jelena\desktop\grafikanovo\waves\include\assimp\include\assimp\material.h
+	"types.h"
+	"./Compiler/pushpack1.h"
+	"./Compiler/poppack1.h"
+	"material.inl"
+
+1490905136 c:\users\jelena\desktop\grafikanovo\waves\include\assimp\include\assimp\material.inl
+
+1490905136 c:\users\jelena\desktop\grafikanovo\waves\include\assimp\include\assimp\anim.h
+	"types.h"
+	"quaternion.h"
+
+1490905136 c:\users\jelena\desktop\grafikanovo\waves\include\assimp\include\assimp\metadata.h
+	<assert.h>
+	"Compiler/pstdint.h"
+	<limits.h>
+	<stdint.h>
+	<string>
+
+1490905136 c:\users\jelena\desktop\grafikanovo\waves\include\assimp\include\assimp\compiler\pstdint.h
+	<stddef.h>
+	<limits.h>
+	<signal.h>
+	<stdint.h>
+	<sys/inttypes.h>
+	<wchar.h>
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+
+1490905136 c:\users\jelena\desktop\grafikanovo\waves\include\assimp\include\assimp\postprocess.h
+	"types.h"
+
+1566045134 source:c:\users\jelena\desktop\grafikanovo\waves\src\lists.c
+	<stdio.h>
+	<unistd.h>
+	<lists.h>
+
+1566045061 c:\users\jelena\desktop\grafikanovo\waves\include\lists.h
+
+1566052122 source:c:\users\jelena\desktop\grafikanovo\waves\src\models.c
+	<stdio.h>
+	<glad\glad.h>
+	<lists.h>
+	<models.h>
+
+1566046695 c:\users\jelena\desktop\grafikanovo\waves\include\models.h
+
+1566047790 source:c:\users\jelena\desktop\grafikanovo\waves\src\matrices.c
+	<string.h>
+	<math.h>
+	<matrices.h>
+
+1566047728 c:\users\jelena\desktop\grafikanovo\waves\include\matrices.h
+
+1566302209 source:c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\main.c
+	<stdio.h>
+	<stdlib.h>
+	<time.h>
+	<glad\glad.h>
+	<GLFW\glfw3.h>
+	<helpers.h>
+	<models.h>
+	<string.h>
+	<matrices.h>
+	<stb_image.h>
+	<Assimp\include\assimp\cimport.h>
+	<Assimp\include\assimp\scene.h>
+	<Assimp\include\assimp\postprocess.h>
+	<constants.h>
+
+1563897248 c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\include\glad\glad.h
+	<KHR/khrplatform.h>
+
+1563897248 c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\include\khr\khrplatform.h
+	<stdint.h>
+	<inttypes.h>
+	<stdint.h>
+
+1555377563 c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\include\glfw\glfw3.h
+	<stddef.h>
+	<stdint.h>
+	<GLES/gl.h>
+	<GLES/glext.h>
+	<GLES2/gl2.h>
+	<GLES2/gl2ext.h>
+	<GLES3/gl3.h>
+	<GLES2/gl2ext.h>
+	<GLES3/gl31.h>
+	<GLES2/gl2ext.h>
+	<GLES3/gl32.h>
+	<GLES2/gl2ext.h>
+	<OpenGL/gl3.h>
+	<OpenGL/gl3ext.h>
+	<GL/glcorearb.h>
+	<OpenGL/gl.h>
+	<OpenGL/glu.h>
+	<GL/gl.h>
+	<GL/glext.h>
+	<GL/glu.h>
+	<vulkan/vulkan.h>
+
+1565881152 c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\include\helpers.h
+	<glad\glad.h>
+
+1566046695 c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\include\models.h
+
+1566047728 c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\include\matrices.h
+
+1565886590 c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\include\stb_image.h
+	"stb_image.h"
+	<stdio.h>
+	<stdlib.h>
+	<stdarg.h>
+	<stddef.h>
+	<stdlib.h>
+	<string.h>
+	<limits.h>
+	<math.h>
+	<stdio.h>
+	<assert.h>
+	<stdint.h>
+	<emmintrin.h>
+	<intrin.h>
+	<arm_neon.h>
+
+1490905136 c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\include\assimp\include\assimp\cimport.h
+	"types.h"
+	"importerdesc.h"
+
+1490905136 c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\include\assimp\include\assimp\types.h
+	<sys/types.h>
+	<math.h>
+	<stddef.h>
+	<string.h>
+	<limits.h>
+	"defs.h"
+	"vector3.h"
+	"vector2.h"
+	"color4.h"
+	"matrix3x3.h"
+	"matrix4x4.h"
+	"quaternion.h"
+	<cstring>
+	<new>
+	<string>
+	"./Compiler/pushpack1.h"
+	"./Compiler/poppack1.h"
+	"vector2.inl"
+	"vector3.inl"
+	"color4.inl"
+	"quaternion.inl"
+	"matrix3x3.inl"
+	"matrix4x4.inl"
+
+1490905136 c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\include\assimp\include\assimp\defs.h
+
+1490905136 c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\include\assimp\include\assimp\vector3.h
+	<cmath>
+	<math.h>
+	"./Compiler/pushpack1.h"
+	"./Compiler/poppack1.h"
+
+1490905136 c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\include\assimp\include\assimp\compiler\pushpack1.h
+
+1490905136 c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\include\assimp\include\assimp\compiler\poppack1.h
+
+1490905136 c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\include\assimp\include\assimp\vector2.h
+	<cmath>
+	<math.h>
+	"./Compiler/pushpack1.h"
+	"./Compiler/poppack1.h"
+
+1490905136 c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\include\assimp\include\assimp\color4.h
+	"./Compiler/pushpack1.h"
+	"./Compiler/poppack1.h"
+
+1490905136 c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\include\assimp\include\assimp\matrix3x3.h
+	"./Compiler/pushpack1.h"
+	"./Compiler/poppack1.h"
+
+1490905136 c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\include\assimp\include\assimp\matrix4x4.h
+	"vector3.h"
+	"./Compiler/pushpack1.h"
+	"./Compiler/poppack1.h"
+
+1490905136 c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\include\assimp\include\assimp\quaternion.h
+
+1490905136 c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\include\assimp\include\assimp\vector2.inl
+	"vector2.h"
+	<cmath>
+
+1490905136 c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\include\assimp\include\assimp\vector3.inl
+	"vector3.h"
+	<cmath>
+
+1490905136 c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\include\assimp\include\assimp\color4.inl
+	"color4.h"
+
+1490905136 c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\include\assimp\include\assimp\quaternion.inl
+	"quaternion.h"
+	<cmath>
+
+1490905136 c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\include\assimp\include\assimp\matrix3x3.inl
+	"matrix3x3.h"
+	"matrix4x4.h"
+	<algorithm>
+	<cmath>
+	<limits>
+
+1490905136 c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\include\assimp\include\assimp\matrix4x4.inl
+	"matrix4x4.h"
+	"matrix3x3.h"
+	"quaternion.h"
+	<algorithm>
+	<limits>
+	<cmath>
+
+1490905136 c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\include\assimp\include\assimp\importerdesc.h
+
+1490905136 c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\include\assimp\include\assimp\scene.h
+	"types.h"
+	"texture.h"
+	"mesh.h"
+	"light.h"
+	"camera.h"
+	"material.h"
+	"anim.h"
+	"metadata.h"
+
+1490905136 c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\include\assimp\include\assimp\texture.h
+	"types.h"
+	"./Compiler/pushpack1.h"
+	"./Compiler/poppack1.h"
+
+1490905136 c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\include\assimp\include\assimp\mesh.h
+	"types.h"
+
+1490905136 c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\include\assimp\include\assimp\light.h
+	"types.h"
+
+1490905136 c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\include\assimp\include\assimp\camera.h
+	"types.h"
+
+1490905136 c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\include\assimp\include\assimp\material.h
+	"types.h"
+	"./Compiler/pushpack1.h"
+	"./Compiler/poppack1.h"
+	"material.inl"
+
+1490905136 c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\include\assimp\include\assimp\material.inl
+
+1490905136 c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\include\assimp\include\assimp\anim.h
+	"types.h"
+	"quaternion.h"
+
+1490905136 c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\include\assimp\include\assimp\metadata.h
+	<assert.h>
+	"Compiler/pstdint.h"
+	<limits.h>
+	<stdint.h>
+	<string>
+
+1490905136 c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\include\assimp\include\assimp\compiler\pstdint.h
+	<stddef.h>
+	<limits.h>
+	<signal.h>
+	<stdint.h>
+	<sys/inttypes.h>
+	<wchar.h>
+	<stdlib.h>
+	<stdio.h>
+	<string.h>
+
+1490905136 c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\include\assimp\include\assimp\postprocess.h
+	"types.h"
+
+1566045575 c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\include\constants.h
+
+1563897248 source:c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\src\glad\glad.c
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<glad/glad.h>
+	<windows.h>
+	<winapifamily.h>
+	<dlfcn.h>
+
+1565885177 source:c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\src\helpers.c
+	<stdio.h>
+	<stdlib.h>
+	<helpers.h>
+
+1566045134 source:c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\src\lists.c
+	<stdio.h>
+	<unistd.h>
+	<lists.h>
+
+1566045061 c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\include\lists.h
+
+1566302507 source:c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\src\matrices.c
+	<string.h>
+	<math.h>
+	<matrices.h>
+
+1566052122 source:c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\src\models.c
+	<stdio.h>
+	<glad\glad.h>
+	<lists.h>
+	<models.h>
+
+1564074360 source:c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\src\vector.c
+	<math.h>
+	<stdlib.h>
+	<vector.h>
+
+1564025878 c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\include\vector.h
+
