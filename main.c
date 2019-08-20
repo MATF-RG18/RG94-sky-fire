@@ -21,10 +21,6 @@
 
 //OBJEKAT
 
-const struct aiScene* scene = NULL;
-GLint scene_list = 0;
-struct aiVector3D scene_min, scene_max, scene_center;
-
 static float rotation_angle = 0.f;
 
 float vertices_triangle[] = {
