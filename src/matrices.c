@@ -8,16 +8,29 @@ void create_perspective_projection_matrix(mat4f *result, float fov, float aspect
 {
 
     float frustum_depth = far_plane - near_plane;
-    float one_over_depth = 1 / frustum_depth;
+    float one_over_depth = 1.0f / frustum_depth;
+
+    float y_scale = 1.0f / tanf(to_radians(fov * 0.5f)) * aspect;
+    float x_scale = y_scale / aspect;
 
     memset(result -> data, 0, 4 * 4 * sizeof(float));
 
+    result -> data[0][0] = x_scale;
+    result -> data[1][1] = y_scale;
+    result -> data[2][2] = -((far_plane + near_plane) * one_over_depth);
+    result -> data[2][3] = -1.0f;
+    result -> data[3][2] = -((2.0f * near_plane * far_plane) * one_over_depth);
+    result -> data[3][3] = 0.0f;
+
+
+    /*
     result -> data[1][1] = 1 / tanf(to_radians(0.5f * fov));
     result -> data[0][0] = result -> data[1][1] / aspect;
     result -> data[2][2] = far_plane * one_over_depth;
     result -> data[3][2] = (-far_plane * near_plane) * one_over_depth;
     result -> data[2][3] = 1;
     result -> data[3][3] = 0;
+    */
 }
 
 void create_translation_matrix(mat4f *result, float dx, float dy, float dz)
@@ -85,6 +98,67 @@ void create_rotation_matrix(mat4f *result, float rot_x, float rot_y, float rot_z
 
     mryz = matrix_multiply(mry, mrz);
     *result = matrix_multiply(mrx, mryz);
+}
+
+void create_camera_view_matrix(mat4f *result, camera_t c)
+{
+    create_view_matrix(result, c.pos.x, c.pos.y, c.pos.z, c.yaw, c.pitch, c.roll);
+}
+
+
+
+void mat4f_show(mat4f m)
+{
+    int i, j;
+    for(i = 0; i < 4; i++)
+    {
+        for(j = 0; j < 4; j++)
+        {
+            printf("%4.2f ", m.data[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+void create_view_matrix(mat4f *result, float x, float y, float z, float yaw, float pitch, float roll)
+{
+
+    matrix_set_to_identity(result);
+    mat4f transl, mrx, mry;
+
+    create_translation_matrix(&transl, -x, -y, -z);
+
+    mat_rotate_x(&mrx, pitch);
+    mat_rotate_y(&mry, yaw);
+
+    *result = matrix_multiply(mrx, mry);
+
+
+    *result = matrix_multiply(transl, *result);
+
+
+    /*
+    memset(result -> data, 0, 4 * 4 * sizeof(float));
+    result -> data[0][0] = -sinf(to_radians(yaw));
+    result -> data[0][1] = cosf(to_radians(yaw));
+    result -> data[0][2] = 0.0f;
+    result -> data[0][3] = x * sinf(to_radians(yaw)) - y * cosf(to_radians(yaw));
+
+    result -> data[1][0] = -sinf(to_radians(pitch)) * cosf(to_radians(yaw));
+    result -> data[1][1] = -sinf(to_radians(pitch)) * sinf(to_radians(yaw));
+    result -> data[1][2] = cosf(to_radians(pitch));
+    result -> data[1][3] = sinf(to_radians(pitch)) * (x * cosf(to_radians(yaw)) + y * sinf(to_radians(yaw))) - z * cosf(to_radians(pitch));
+
+    result -> data[2][0] = -cosf(to_radians(pitch)) * cosf(to_radians(yaw));
+    result -> data[2][1] = -cosf(to_radians(pitch)) * sinf(to_radians(yaw));
+    result -> data[2][2] = -sinf(to_radians(pitch));
+    result -> data[2][3] = cosf(to_radians(pitch)) * (x * cosf(to_radians(yaw)) + y * sinf(to_radians(yaw))) + z * sinf(to_radians(pitch));
+
+    result -> data[3][0] = 0.0f;
+    result -> data[3][1] = 0.0f;
+    result -> data[3][2] = 0.0f;
+    result -> data[3][3] = 1.0f;
+    */
 }
 
 void matrix_set_to_identity(mat4f *result)

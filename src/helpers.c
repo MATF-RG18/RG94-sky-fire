@@ -107,3 +107,28 @@ inline float to_radians(float degrees)
 {
     return degrees * M_PI / 180.0f;
 }
+
+
+void follow_target(vec3f target_pos, vec3f target_rot, float distance, float pitch, float angle, vec3f *r_position, float *r_yaw, float *r_pitch)
+{
+    *r_pitch = pitch;
+    float theta = target_rot.y + angle;
+    float hdistance = distance * cosf(to_radians(pitch));
+    float vdistance = distance * sinf(to_radians(pitch));
+    float offset_x = hdistance * sinf(to_radians(theta));
+    float offset_z = hdistance * cosf(to_radians(theta));
+
+    r_position -> x = target_pos.x - offset_x;
+    r_position -> y = target_pos.y + vdistance;
+    r_position -> z = target_pos.z - offset_z;
+
+    *r_yaw = 180.0f - theta;
+
+}
+
+
+void camera_follow_target(vec3f target_pos, vec3f target_rot, float distance, float pitch, float angle, camera_t *cam)
+{
+    follow_target(target_pos, target_rot, distance, pitch, angle, &(cam -> pos), &(cam -> yaw), &(cam -> pitch));
+    cam -> roll = 0.0f;
+}

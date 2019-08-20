@@ -472,7 +472,7 @@
 
 1566047728 c:\users\jelena\desktop\grafikanovo\waves\include\matrices.h
 
-1566305203 source:c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\main.c
+1566315480 source:c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\main.c
 	<stdio.h>
 	<stdlib.h>
 	<time.h>
@@ -516,12 +516,14 @@
 	<GL/glu.h>
 	<vulkan/vulkan.h>
 
-1566304846 c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\include\helpers.h
+1566311477 c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\include\helpers.h
 	<glad\glad.h>
+	<vector.h>
 
 1566046695 c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\include\models.h
 
-1566306615 c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\include\matrices.h
+1566314572 c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\include\matrices.h
+	<helpers.h>
 
 1565886590 c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\include\stb_image.h
 	"stb_image.h"
@@ -702,7 +704,7 @@
 	<winapifamily.h>
 	<dlfcn.h>
 
-1566304962 source:c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\src\helpers.c
+1566315505 source:c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\src\helpers.c
 	<stdio.h>
 	<stdlib.h>
 	<math.h>
@@ -715,7 +717,7 @@
 
 1566045061 c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\include\lists.h
 
-1566306736 source:c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\src\matrices.c
+1566315156 source:c:\users\jelena\desktop\grafikanovo\repozitorijum\rg94-sky-fire\src\matrices.c
 	<string.h>
 	<math.h>
 	<matrices.h>

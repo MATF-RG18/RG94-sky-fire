@@ -101,6 +101,7 @@ int main(int argc, char *argv[])
         GLuint program = create_program("vert.glsl", "frag.glsl");
         GLuint location_projection = glGetUniformLocation(program, "projection_m");
         GLuint location_model = glGetUniformLocation(program, "model_m");
+        GLuint location_view = glGetUniformLocation(program, "view_m");
 
 
 
@@ -171,13 +172,13 @@ int main(int argc, char *argv[])
 
     clock_t last_frame = clock(), current_frame;
     float elapsed = 0.0f;
-    float time = -10.0f;
+    float time = 0.0f;
     glUniform1i(glGetUniformLocation(program, "albedo"), 0);
     glUniform1i(glGetUniformLocation(program, "noise"), 1);
 
     glEnable(GL_DEPTH_TEST);
 
-    float x = 0, y = 0, z = 1.75f;
+    float x = 0, y = 0, z = 0;
 
     while(!glfwWindowShouldClose(window))
     {
@@ -190,7 +191,7 @@ int main(int argc, char *argv[])
 
         last_frame = current_frame;
 
-        printf("elapsed: %5.2f fps: %5.2f\n", elapsed, 1.0f / elapsed);
+        //printf("elapsed: %5.2f fps: %5.2f\n", elapsed, 1.0f / elapsed);
 
         time += elapsed;
 
@@ -232,9 +233,22 @@ int main(int argc, char *argv[])
         mat4f rotm;
         create_rotation_matrix(&rotm, time * 45.0f, time * 45.0f, 0);
 
-        model_m = matrix_multiply(model_m, rotm);
+        //model_m = matrix_multiply(model_m, rotm);
 
+        mat4f view_m;
+
+        double xpos, ypos;
+        glfwGetCursorPos(window, &xpos, &ypos);
+
+        camera_t c;
+        camera_follow_target(vec3f_create(x, y, z), vec3f_create(0, 0, 0), time * 0.5f, 20.0f, 0.0f, &c);
+
+        printf("Camera data: pos(%5.2f, %5.2f, %5.2f) yaw: %5.2f  pitch: %5.2f  roll: %5.2f\n", c.pos.x, c.pos.y, c.pos.z, c.yaw, c.pitch, c.roll);
+        create_camera_view_matrix(&view_m, c);
+        mat4f_show(view_m);
         process_input(window);
+
+
 
 
 
@@ -264,6 +278,7 @@ int main(int argc, char *argv[])
         glUniformMatrix4fv(location_projection, 1, GL_FALSE, proj_m.data);
 
         glUniformMatrix4fv(location_model, 1, GL_TRUE, model_m.data);
+        glUniformMatrix4fv(location_view, 1, GL_TRUE, view_m.data);
         glDrawArrays(GL_TRIANGLES, 0, model.vertex_count);
 
 

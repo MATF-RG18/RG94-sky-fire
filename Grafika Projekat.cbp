@@ -48,6 +48,10 @@
 		</Compiler>
 		<Unit filename="include/constants.h" />
 		<Unit filename="include/helpers.h" />
+		<Unit filename="include/lists.h" />
+		<Unit filename="include/matrices.h" />
+		<Unit filename="include/models.h" />
+		<Unit filename="include/stb_image.h" />
 		<Unit filename="include/vector.h" />
 		<Unit filename="main.c">
 			<Option compilerVar="CC" />

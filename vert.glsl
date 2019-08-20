@@ -17,7 +17,8 @@ uniform mat4 view_m;
 void main()
 {
 	vec4 world_position = model_m * vec4(pos, 1.0);
-	vec4 projected = projection_m * world_position; 
+	vec4 camera_position = view_m * world_position;
+	vec4 projected = projection_m * camera_position; 
     gl_Position = projected;
 	pass_normal = normal;
 	pass_uv = uv;
