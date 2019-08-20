@@ -228,16 +228,11 @@ int main(int argc, char *argv[])
             z += elapsed;
         }
 
-        memset(model_m.data, 0, 4 * 4 * sizeof(float));
-        model_m.data[0][0] = 1.0f;
-        model_m.data[1][1] = 1.0f;
-        model_m.data[2][2] = 1.0f;
-        model_m.data[3][3] = 1.0f;
+        create_translation_matrix(&model_m, x, y, z);
+        mat4f rotm;
+        create_rotation_matrix(&rotm, time * 45.0f, time * 45.0f, 0);
 
-        model_m.data[0][3] = x;
-        model_m.data[1][3] = y;
-        model_m.data[2][3] = z;
-
+        model_m = matrix_multiply(model_m, rotm);
 
         process_input(window);
 

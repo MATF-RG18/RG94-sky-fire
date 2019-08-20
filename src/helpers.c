@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 #include <helpers.h>
 
@@ -102,3 +103,7 @@ GLuint create_program(const char *vertex_source_filepath, const char *fragment_s
     return program;
 }
 
+inline float to_radians(float degrees)
+{
+    return degrees * M_PI / 180.0f;
+}

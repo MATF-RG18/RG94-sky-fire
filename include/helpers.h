@@ -31,5 +31,7 @@ GLuint create_program_from_source(const char *vertex_source, const char *fragmen
 char* read_file_content(const char *filepath);
 int file_size(const char *filepath);
 
+float to_radians(float degrees);
+
 
 #endif // HELPERS_H_INCLUDED
