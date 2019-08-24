@@ -74,7 +74,7 @@ int main(int argc, char *argv[])
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    GLFWwindow *window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "main", NULL, NULL);
+    GLFWwindow *window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Sky Fire", NULL, NULL);
     if(window == NULL)
     {
         fprintf(stderr, "Failed to create GLFW window!\n");
@@ -103,6 +103,8 @@ int main(int argc, char *argv[])
         GLuint location_model = glGetUniformLocation(program, "model_m");
         GLuint location_view = glGetUniformLocation(program, "view_m");
 
+        GLuint location_light_position = glGetUniformLocation(program, "light_position");
+        GLuint location_light_colour = glGetUniformLocation(program, "light_colour");
 
 
 
@@ -158,11 +160,11 @@ int main(int argc, char *argv[])
         glGenerateMipmap(GL_TEXTURE_2D);
         stbi_image_free(data);
 
-        mesh model;
-        load_wavefont_mesh("res\\model.obj", &model);
+        mesh_t aeroplane_mesh;
+        load_wavefront_mesh_with_rotation("res\\model.obj", &aeroplane_mesh, vec3f_create(270.0f, 0.0f, 0.0f));
 
         mat4f proj_m;
-        create_perspective_projection_matrix(&proj_m, 80.0f, WINDOW_WIDTH / WINDOW_HEIGHT, 0.05f, 1000.0f);
+        create_perspective_projection_matrix(&proj_m, 60.0f, (WINDOW_WIDTH * 1.0f) / WINDOW_HEIGHT, 0.01f, 1000.0f);
 
 
     /* END OF DEBUG CODE */
@@ -178,7 +180,16 @@ int main(int argc, char *argv[])
 
     glEnable(GL_DEPTH_TEST);
 
-    float x = 0, y = 0, z = 0;
+    float x = 0, y = 0, z = 0, speed = 10.0f;
+
+    entity_t aeroplane;
+    create_entity(&aeroplane, aeroplane_mesh, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+
+    mat4f aeroplane_rotation;
+    create_rotation_matrix(&aeroplane_rotation, 0.0f, 0.0f, 0.0f);
+
+    vec3f light_position = vec3f_create(500.0f, 8000.0f, 8000.0f);
+    vec3f light_colour = vec3f_create(1.0f, 1.0f, 1.0f);
 
     while(!glfwWindowShouldClose(window))
     {
@@ -199,57 +210,82 @@ int main(int argc, char *argv[])
 
         mat4f model_m;
 
+        vec3f vforward = matrix_vector_multiply(aeroplane_rotation, vec3f_create(0.0f, 0.0f, -1.0f));
+        vec3f vup = matrix_vector_multiply(aeroplane_rotation, vec3f_create(0.0f, 1.0f, 0.0f));
+        vec3f vback = vec3f_scalar_product(vforward, -1.0f);
+
+        //printf("Forward: (%5.2f, %5.2f, %5.2f)\n", vforward.x, vforward.y, vforward.z);
+
         if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
         {
-            y += elapsed;
+            aeroplane.position = vec3f_add(aeroplane.position, vec3f_scalar_product(vforward, elapsed * speed));
         }
-
+        float inversion = 1.0f;
         if(glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
         {
-            y -= elapsed;
+            aeroplane.position = vec3f_subtract(aeroplane.position, vec3f_scalar_product(vforward, elapsed * speed));
+            inversion = -1.0f;
         }
 
         if(glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
         {
-            x -= elapsed;
+            mat4f rotm;
+            create_rotation_matrix(&rotm, 0.0f, 30.0f * elapsed * inversion, 0.0f);
+            aeroplane_rotation = matrix_multiply(aeroplane_rotation, rotm);
         }
 
         if(glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         {
-            x += elapsed;
+            mat4f rotm;
+            create_rotation_matrix(&rotm, 0.0f, -30.0f * elapsed * inversion, 0.0f);
+            aeroplane_rotation = matrix_multiply(aeroplane_rotation, rotm);
         }
 
         if(glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
         {
-            z -= elapsed;
+            mat4f rotm;
+            create_rotation_matrix(&rotm, 30.0f * elapsed * inversion, 0.0f, 0.0f);
+            aeroplane_rotation = matrix_multiply(aeroplane_rotation, rotm);
         }
 
         if(glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
         {
-            z += elapsed;
+            mat4f rotm;
+            create_rotation_matrix(&rotm, -30.0f * elapsed * inversion, 0.0f, 0.0f);
+            aeroplane_rotation = matrix_multiply(aeroplane_rotation, rotm);
         }
 
-        create_translation_matrix(&model_m, x, y, z);
-        mat4f rotm;
-        create_rotation_matrix(&rotm, time * 45.0f, time * 45.0f, 0);
+        //create_model_matrix_entity(&model_m, &aeroplane);
+        mat4f transl;
+        create_translation_matrix(&transl, aeroplane.position.x, aeroplane.position.y, aeroplane.position.z);
+        mat4f scal;
+        create_scale_matrix(&scal, aeroplane.scale, aeroplane.scale, aeroplane.scale);
+        model_m = matrix_multiply(aeroplane_rotation, scal);
+        model_m = matrix_multiply(transl, model_m);
 
-        //model_m = matrix_multiply(model_m, rotm);
 
         mat4f view_m;
-
         double xpos, ypos;
         glfwGetCursorPos(window, &xpos, &ypos);
 
         camera_t c;
-        camera_follow_target(vec3f_create(x, y, z), vec3f_create(0, 0, 0), time * 0.5f, 20.0f, 0.0f, &c);
+
+        c.pos = vec3f_add(aeroplane.position, vec3f_scalar_product(vback, 4.0f));
+        c.pos = vec3f_add(c.pos, vec3f_scalar_product(vup, 2.0f));
+
+        camera_loot_at(aeroplane.position, c.pos, &c);
 
         printf("Camera data: pos(%5.2f, %5.2f, %5.2f) yaw: %5.2f  pitch: %5.2f  roll: %5.2f\n", c.pos.x, c.pos.y, c.pos.z, c.yaw, c.pitch, c.roll);
         create_camera_view_matrix(&view_m, c);
+        //matrix_set_to_identity(&view_m);
+        //create_view_matrix(&view_m, x, 0, y, 0, z * 25.0f, 0);
         mat4f_show(view_m);
         process_input(window);
 
 
 
+        mat4f model2;
+        create_model_matrix(&model2, 5.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.5f);
 
 
         //draw
@@ -260,7 +296,7 @@ int main(int argc, char *argv[])
 
 
 
-        glBindVertexArray(model.vao);
+        glBindVertexArray(aeroplane.mesh.vao);
 
 
         glActiveTexture(GL_TEXTURE0);
@@ -275,12 +311,18 @@ int main(int argc, char *argv[])
         glEnableVertexAttribArray(2);
 
 
-        glUniformMatrix4fv(location_projection, 1, GL_FALSE, proj_m.data);
+        glUniformMatrix4fv(location_projection, 1, GL_TRUE, proj_m.data);
 
         glUniformMatrix4fv(location_model, 1, GL_TRUE, model_m.data);
         glUniformMatrix4fv(location_view, 1, GL_TRUE, view_m.data);
-        glDrawArrays(GL_TRIANGLES, 0, model.vertex_count);
 
+        glUniform3f(location_light_position, light_position.x, light_position.y, light_position.z);
+        glUniform3f(location_light_colour, light_colour.x, light_colour.y, light_colour.z);
+
+        glDrawArrays(GL_TRIANGLES, 0, aeroplane.mesh.vertex_count);
+
+        glUniformMatrix4fv(location_model, 1, GL_TRUE, model2.data);
+        glDrawArrays(GL_TRIANGLES, 0, aeroplane.mesh.vertex_count);
 
         glDisableVertexAttribArray(2);
         glDisableVertexAttribArray(1);

@@ -3,6 +3,7 @@
 #include <math.h>
 
 #include <helpers.h>
+#include <constants.h>
 
 int file_size(const char *filepath)
 {
@@ -105,9 +106,13 @@ GLuint create_program(const char *vertex_source_filepath, const char *fragment_s
 
 inline float to_radians(float degrees)
 {
-    return degrees * M_PI / 180.0f;
+    return degrees * PIf / 180.0f;
 }
 
+inline float to_degrees(float radians)
+{
+    return radians * 180.0f / PIf;
+}
 
 void follow_target(vec3f target_pos, vec3f target_rot, float distance, float pitch, float angle, vec3f *r_position, float *r_yaw, float *r_pitch)
 {
@@ -131,4 +136,22 @@ void camera_follow_target(vec3f target_pos, vec3f target_rot, float distance, fl
 {
     follow_target(target_pos, target_rot, distance, pitch, angle, &(cam -> pos), &(cam -> yaw), &(cam -> pitch));
     cam -> roll = 0.0f;
+}
+
+
+void camera_loot_at(vec3f target, vec3f from, camera_t *cam)
+{
+
+    vec3f direction = vec3f_normalized(vec3f_subtract(from, target));
+
+    float pitch = to_degrees(asinf(direction.y)) ;
+
+    float yaw = 360.0f - to_degrees(atan2f(direction.x, direction.z));
+
+    cam -> pos = from;
+    cam -> yaw = yaw;
+    cam -> pitch = pitch;
+    cam -> roll = 0.0f;
+
+
 }

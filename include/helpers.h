@@ -3,6 +3,7 @@
 
 #include <glad\glad.h>
 
+
 static const char * DEBUG_VERT_SHADER_SRC = "\
 #version 410 core\n\
 layout (location = 0) in vec3 pos;\n\
@@ -39,10 +40,12 @@ char* read_file_content(const char *filepath);
 int file_size(const char *filepath);
 
 float to_radians(float degrees);
+float to_degrees(float radians);
 
 void follow_target(vec3f target_pos, vec3f tartget_rot, float distance, float pitch, float angle, vec3f *r_position, float *r_yaw, float *r_pitch);
 
 void camera_follow_target(vec3f target, vec3f tartget_rot, float distance, float pitch, float angle, camera_t *cam);
+void camera_loot_at(vec3f target, vec3f from, camera_t *cam);
 
 
 

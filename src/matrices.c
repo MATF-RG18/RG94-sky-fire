@@ -3,14 +3,30 @@
 
 #include <matrices.h>
 #include <helpers.h>
+#include <vector.h>
+
+vec3f matrix_vector_multiply(mat4f mat, vec3f vec)
+{
+    float v[4] = {vec.x, vec.y, vec.z, 1.0f};
+    float r[4] = {0.0f, 0.0f, 0.0f, 0.0f};
+    int i, j;
+    for(i = 0; i < 4; i++)
+    {
+        for(j = 0; j < 4; j++)
+        {
+            r[i] += mat.data[i][j] * v[j];
+        }
+
+    }
+    return (vec3f) {r[0], r[1], r[2]};
+}
 
 void create_perspective_projection_matrix(mat4f *result, float fov, float aspect, float near_plane, float far_plane)
 {
 
     float frustum_depth = far_plane - near_plane;
     float one_over_depth = 1.0f / frustum_depth;
-
-    float y_scale = 1.0f / tanf(to_radians(fov * 0.5f)) * aspect;
+    float y_scale = 1.0f / tanf(to_radians(fov * 0.5f));
     float x_scale = y_scale / aspect;
 
     memset(result -> data, 0, 4 * 4 * sizeof(float));
@@ -18,19 +34,18 @@ void create_perspective_projection_matrix(mat4f *result, float fov, float aspect
     result -> data[0][0] = x_scale;
     result -> data[1][1] = y_scale;
     result -> data[2][2] = -((far_plane + near_plane) * one_over_depth);
-    result -> data[2][3] = -1.0f;
-    result -> data[3][2] = -((2.0f * near_plane * far_plane) * one_over_depth);
+    result -> data[3][2] = -1.0f;
+    result -> data[2][3] = -((2.0f * near_plane * far_plane) * one_over_depth);
     result -> data[3][3] = 0.0f;
+/*
 
-
-    /*
     result -> data[1][1] = 1 / tanf(to_radians(0.5f * fov));
     result -> data[0][0] = result -> data[1][1] / aspect;
     result -> data[2][2] = far_plane * one_over_depth;
     result -> data[3][2] = (-far_plane * near_plane) * one_over_depth;
     result -> data[2][3] = 1;
     result -> data[3][3] = 0;
-    */
+*/
 }
 
 void create_translation_matrix(mat4f *result, float dx, float dy, float dz)
@@ -122,7 +137,6 @@ void mat4f_show(mat4f m)
 
 void create_view_matrix(mat4f *result, float x, float y, float z, float yaw, float pitch, float roll)
 {
-
     matrix_set_to_identity(result);
     mat4f transl, mrx, mry;
 
@@ -134,31 +148,7 @@ void create_view_matrix(mat4f *result, float x, float y, float z, float yaw, flo
     *result = matrix_multiply(mrx, mry);
 
 
-    *result = matrix_multiply(transl, *result);
-
-
-    /*
-    memset(result -> data, 0, 4 * 4 * sizeof(float));
-    result -> data[0][0] = -sinf(to_radians(yaw));
-    result -> data[0][1] = cosf(to_radians(yaw));
-    result -> data[0][2] = 0.0f;
-    result -> data[0][3] = x * sinf(to_radians(yaw)) - y * cosf(to_radians(yaw));
-
-    result -> data[1][0] = -sinf(to_radians(pitch)) * cosf(to_radians(yaw));
-    result -> data[1][1] = -sinf(to_radians(pitch)) * sinf(to_radians(yaw));
-    result -> data[1][2] = cosf(to_radians(pitch));
-    result -> data[1][3] = sinf(to_radians(pitch)) * (x * cosf(to_radians(yaw)) + y * sinf(to_radians(yaw))) - z * cosf(to_radians(pitch));
-
-    result -> data[2][0] = -cosf(to_radians(pitch)) * cosf(to_radians(yaw));
-    result -> data[2][1] = -cosf(to_radians(pitch)) * sinf(to_radians(yaw));
-    result -> data[2][2] = -sinf(to_radians(pitch));
-    result -> data[2][3] = cosf(to_radians(pitch)) * (x * cosf(to_radians(yaw)) + y * sinf(to_radians(yaw))) + z * sinf(to_radians(pitch));
-
-    result -> data[3][0] = 0.0f;
-    result -> data[3][1] = 0.0f;
-    result -> data[3][2] = 0.0f;
-    result -> data[3][3] = 1.0f;
-    */
+    *result = matrix_multiply(*result, transl);
 }
 
 void matrix_set_to_identity(mat4f *result)
@@ -171,9 +161,20 @@ void matrix_set_to_identity(mat4f *result)
 
 }
 
+void create_model_matrix_entity(mat4f *result, const entity_t const *entity)
+{
+    create_model_matrix(result, entity -> position.x, entity -> position.y, entity -> position.z, entity -> rotation.x, entity -> rotation.y, entity -> rotation.z, entity -> scale);
+}
+
 void create_model_matrix(mat4f *result, float dx, float dy, float dz, float rot_x, float rot_y, float rot_z, float scale)
 {
-
+    memset(result, 0, 4 * 4 * sizeof(float));
+    mat4f transl, rot, sca;
+    create_translation_matrix(&transl, dx, dy, dz);
+    create_scale_matrix(&sca, scale, scale, scale);
+    create_rotation_matrix(&rot, rot_x, rot_y, rot_z);
+    *result = matrix_multiply(transl, rot);
+    *result = matrix_multiply(*result, sca);
 }
 
 

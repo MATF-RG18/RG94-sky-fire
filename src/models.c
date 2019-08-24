@@ -1,12 +1,17 @@
 #include <stdio.h>
 #include <glad\glad.h>
 #include <lists.h>
+#include <matrices.h>
 
 #include <models.h>
 
-void load_wavefont_mesh(const char *filepath, mesh *m)
+
+void load_wavefront_mesh_with_rotation(const char *filepath, mesh_t *m, vec3f rot)
 {
-	linked_list vertices, uv_coordinates, normals;
+    mat4f rotm;
+    create_rotation_matrix(&rotm, rot.x, rot.y, rot.z);
+
+    linked_list vertices, uv_coordinates, normals;
 	list_init(&vertices);
 	list_init(&uv_coordinates);
 	list_init(&normals);
@@ -22,7 +27,8 @@ void load_wavefont_mesh(const char *filepath, mesh *m)
 		if(line[0] == 'v' && line[1] == ' ')
 		{
 			sscanf(line + 2, "%f%f%f", &x, &y, &z);
-			list_add(&vertices, x, y, z);
+			vec3f rotated = matrix_vector_multiply(rotm, vec3f_create(x, y, z));
+			list_add(&vertices, rotated.x, rotated.y, rotated.z);
 		}
 		else if (line[0] == 'v' && line[1] == 't')
 		{
@@ -32,7 +38,8 @@ void load_wavefont_mesh(const char *filepath, mesh *m)
 		else if (line[0] == 'v' && line[1] == 'n')
 		{
 			sscanf(line + 3, "%f%f%f", &x, &y, &z);
-			list_add(&normals, x, y, z);
+			vec3f rotated = matrix_vector_multiply(rotm, vec3f_create(x, y, z));
+			list_add(&normals, rotated.x, rotated.y, rotated.z);
 		}
 		else if (line[0] == 'f')
 		{
@@ -128,10 +135,7 @@ void load_wavefont_mesh(const char *filepath, mesh *m)
 		float_buffer[8 * i + 6] = uv_data -> x;
 		float_buffer[8 * i + 7] = 1.0f - uv_data -> y;
 
-
 	}
-
-
 	// GL BUFFER DATA
 
 	int vao;
@@ -170,4 +174,27 @@ void load_wavefont_mesh(const char *filepath, mesh *m)
 	int_list_free(&normal_indices);
 
 	fclose(f);
+}
+
+
+
+void load_wavefront_mesh(const char *filepath, mesh_t *m)
+{
+    load_wavefront_mesh_with_rotation(filepath, m, vec3f_create(0.0f, 0.0f, 0.0f));
+}
+
+
+
+
+void create_entity(entity_t *result, mesh_t mesh, float x, float y, float z, float rot_x, float rot_y, float rot_z, float scale)
+{
+    create_entity_vecs(result, mesh, vec3f_create(x, y, z), vec3f_create(rot_x, rot_y, rot_z), scale);
+}
+
+void create_entity_vecs(entity_t *result, mesh_t mesh, vec3f position, vec3f rotation, float scale)
+{
+    result -> mesh = mesh;
+    result -> position = position;
+    result -> rotation = rotation;
+    result -> scale = scale;
 }

@@ -4,6 +4,8 @@
 #define WINDOW_WIDTH 1600
 #define WINDOW_HEIGHT 900
 
+#define PIf 3.14159265f
+
 
 
 #endif // CONSTANTS_H_INCLUDED
