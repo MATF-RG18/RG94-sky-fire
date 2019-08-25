@@ -39,7 +39,10 @@ void main()
 	vec3 fc = (light_colour * brightness) * albedo_colour * clamp(height + ambient_intensity, 0.0, 1.0);
 	
 	final_colour = vec4(fc, 1.0);
-	if(pass_player_distance < 2.1)
-		final_colour = vec4(0.87, 1.0, 1.0, 1.0);
-	
+	if(pass_player_distance < 2.3)
+	{
+		float scale = 1.0 - ((pass_player_distance - 2.0) / 0.3);
+		scale = scale * scale;
+		final_colour = vec4(vec3(0.87, 1.0, 1.0) * scale + fc * (1.0 - scale), 1.0);
+	}
 }

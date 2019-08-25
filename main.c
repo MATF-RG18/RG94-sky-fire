@@ -36,6 +36,15 @@ unsigned int indices_triangle[] = {
 
 int lines = 0;
 
+float distancep = 5.0f;
+
+
+void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
+{
+    distancep += (float) yoffset;
+    if(distancep < 2.0f) distancep = 2.0f;
+}
+
 void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 {
     glViewport(0, 0, width, height);
@@ -44,6 +53,7 @@ void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 void set_all_glfw_callbacks(GLFWwindow *window)
 {
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    glfwSetScrollCallback(window, scroll_callback);
 }
 
 
@@ -75,7 +85,10 @@ int main(int argc, char *argv[])
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
-    GLFWwindow *window = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Sky Fire", NULL, NULL);
+    GLFWmonitor *monitor = glfwGetPrimaryMonitor();
+    const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+
+    GLFWwindow *window = glfwCreateWindow(mode -> width, mode -> height, "Sky Fire", monitor, NULL);
     if(window == NULL)
     {
         fprintf(stderr, "Failed to create GLFW window!\n");
@@ -94,7 +107,7 @@ int main(int argc, char *argv[])
 
     set_all_glfw_callbacks(window);
 
-    glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+    glViewport(0, 0, mode -> width, mode -> height);
     glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
 
     /* DEBUG CODE, DELETE LATER */
@@ -148,7 +161,7 @@ int main(int argc, char *argv[])
 
 
         mat4f proj_m;
-        create_perspective_projection_matrix(&proj_m, 60.0f, (WINDOW_WIDTH * 1.0f) / WINDOW_HEIGHT, 0.01f, 1000.0f);
+        create_perspective_projection_matrix(&proj_m, 60.0f, (mode -> width * 1.0f) / mode -> height, 0.01f, 1000.0f);
 
 
     /* END OF DEBUG CODE */
@@ -294,8 +307,8 @@ int main(int argc, char *argv[])
 
         camera_t c;
 
-        c.pos = vec3f_add(aeroplane.position, vec3f_scalar_product(vback, 4.0f));
-        c.pos = vec3f_add(c.pos, vec3f_scalar_product(vup, 2.0f));
+        c.pos = vec3f_add(aeroplane.position, vec3f_scalar_product(vback, distancep));
+        c.pos = vec3f_add(c.pos, vec3f_scalar_product(vup, distancep * 0.5f));
 
         camera_loot_at(aeroplane.position, c.pos, &c);
 
