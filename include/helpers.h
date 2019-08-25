@@ -27,12 +27,7 @@ void main()\n\
 }\n";
 
 #include <vector.h>
-
-typedef struct _camera_t
-{
-    vec3f pos;
-    float yaw, pitch, roll;
-} camera_t;
+#include <data_structures.h>
 
 GLuint create_program(const char *vertex_source_filepath, const char *fragment_source_filepath);
 GLuint create_program_from_source(const char *vertex_source, const char *fragment_source);
@@ -46,6 +41,12 @@ void follow_target(vec3f target_pos, vec3f tartget_rot, float distance, float pi
 
 void camera_follow_target(vec3f target, vec3f tartget_rot, float distance, float pitch, float angle, camera_t *cam);
 void camera_loot_at(vec3f target, vec3f from, camera_t *cam);
+
+GLuint load_texture(const char *path);
+mesh_t generate_plane_mesh(int u_complexity, int v_complexity, float width, float height);
+
+#define MINM(x, y) ((x) < (y) ? (x) : (y))
+#define MAXM(x, y) ((x) > (y) ? (x) : (y))
 
 
 

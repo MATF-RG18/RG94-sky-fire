@@ -5,6 +5,8 @@
 #include <helpers.h>
 #include <vector.h>
 
+#include <models.h>
+
 vec3f matrix_vector_multiply(mat4f mat, vec3f vec)
 {
     float v[4] = {vec.x, vec.y, vec.z, 1.0f};
@@ -161,8 +163,9 @@ void matrix_set_to_identity(mat4f *result)
 
 }
 
-void create_model_matrix_entity(mat4f *result, const entity_t const *entity)
+void create_model_matrix_entity(mat4f *result, const void const *_entity)
 {
+    entity_t *entity = (entity_t*) _entity;
     create_model_matrix(result, entity -> position.x, entity -> position.y, entity -> position.z, entity -> rotation.x, entity -> rotation.y, entity -> rotation.z, entity -> scale);
 }
 

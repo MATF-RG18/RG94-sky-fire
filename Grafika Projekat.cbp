@@ -47,6 +47,7 @@
 			<Add option="-Wall" />
 		</Compiler>
 		<Unit filename="include/constants.h" />
+		<Unit filename="include/data_structures.h" />
 		<Unit filename="include/helpers.h" />
 		<Unit filename="include/lists.h" />
 		<Unit filename="include/matrices.h" />

@@ -67,6 +67,7 @@ void process_input(GLFWwindow *window)
 
 }
 
+
 int main(int argc, char *argv[])
 {
     glfwInit();
@@ -98,13 +99,15 @@ int main(int argc, char *argv[])
 
     /* DEBUG CODE, DELETE LATER */
 
-        GLuint program = create_program("vert.glsl", "frag.glsl");
-        GLuint location_projection = glGetUniformLocation(program, "projection_m");
-        GLuint location_model = glGetUniformLocation(program, "model_m");
-        GLuint location_view = glGetUniformLocation(program, "view_m");
+        GLuint aeroplane_program = create_program("shaders\\aeroplane.vert", "shaders\\aeroplane.frag");
+        GLuint location_projection = glGetUniformLocation(aeroplane_program, "projection_m");
+        GLuint location_model = glGetUniformLocation(aeroplane_program, "model_m");
+        GLuint location_view = glGetUniformLocation(aeroplane_program, "view_m");
 
-        GLuint location_light_position = glGetUniformLocation(program, "light_position");
-        GLuint location_light_colour = glGetUniformLocation(program, "light_colour");
+
+
+        GLuint location_light_position = glGetUniformLocation(aeroplane_program, "light_position");
+        GLuint location_light_colour = glGetUniformLocation(aeroplane_program, "light_colour");
 
 
 
@@ -133,35 +136,16 @@ int main(int argc, char *argv[])
         glBindBuffer(GL_ARRAY_BUFFER, 0);
         glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 
-        int width, height, nrChannels;
-        unsigned char *data = stbi_load("res\\albedo.jpg", &width, &height, &nrChannels, 0);
-        GLuint albedo_texture;
-        glGenTextures(1, &albedo_texture);
-        glActiveTexture(GL_TEXTURE0);
-        glBindTexture(GL_TEXTURE_2D, albedo_texture);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
-        stbi_image_free(data);
+        GLuint albedo_texture = load_texture("res\\albedo.jpg");
+        GLuint normal_texture = load_texture("res\\normal.jpg");
+        GLuint metalness_texture = load_texture("res\\metalness.jpg");
 
-        data = stbi_load("res\\noise.jpg", &width, &height, &nrChannels, 0);
-        GLuint noise_texture;
-        glGenTextures(1, &noise_texture);
-        glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, noise_texture);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
-        stbi_image_free(data);
+
 
         mesh_t aeroplane_mesh;
         load_wavefront_mesh_with_rotation("res\\model.obj", &aeroplane_mesh, vec3f_create(270.0f, 0.0f, 0.0f));
+
+
 
         mat4f proj_m;
         create_perspective_projection_matrix(&proj_m, 60.0f, (WINDOW_WIDTH * 1.0f) / WINDOW_HEIGHT, 0.01f, 1000.0f);
@@ -174,22 +158,49 @@ int main(int argc, char *argv[])
 
     clock_t last_frame = clock(), current_frame;
     float elapsed = 0.0f;
-    float time = 0.0f;
-    glUniform1i(glGetUniformLocation(program, "albedo"), 0);
-    glUniform1i(glGetUniformLocation(program, "noise"), 1);
+    float time = -5.0f;
+    glUniform1i(glGetUniformLocation(aeroplane_program, "albedo_sampler"), 0);
+    glUniform1i(glGetUniformLocation(aeroplane_program, "normal_sampler"), 1);
+    glUniform1i(glGetUniformLocation(aeroplane_program, "metalness_sampler"), 2);
 
     glEnable(GL_DEPTH_TEST);
 
-    float x = 0, y = 0, z = 0, speed = 10.0f;
+    float x = 0, y = 0, z = 0, speed = AEROPLANE_SPEED;
 
     entity_t aeroplane;
-    create_entity(&aeroplane, aeroplane_mesh, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
+    create_entity(&aeroplane, aeroplane_mesh, 0.0f, 20.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f);
 
     mat4f aeroplane_rotation;
     create_rotation_matrix(&aeroplane_rotation, 0.0f, 0.0f, 0.0f);
 
     vec3f light_position = vec3f_create(500.0f, 8000.0f, 8000.0f);
     vec3f light_colour = vec3f_create(1.0f, 1.0f, 1.0f);
+
+    float shine_damper = 1.0f; //ME
+    float reflectivity = 0; //ME
+
+    int location_shine_damper;
+    int location_reflectivity;
+
+
+    mesh_t plane_mesh = generate_plane_mesh(200, 200, 200.0f, 200.0f);
+    entity_t terrain_tile;
+    create_entity(&terrain_tile, plane_mesh, 0, 0, 0, 0, 0, 0, 1.0f);
+
+    GLuint terrain_program = create_program("shaders\\terrain.vert", "shaders\\terrain.frag");
+
+    GLuint location_projection_terrain = glGetUniformLocation(terrain_program, "projection_m");
+    GLuint location_model_terrain = glGetUniformLocation(terrain_program, "model_m");
+    GLuint location_view_terrain = glGetUniformLocation(terrain_program, "view_m");
+    GLuint location_light_colour_terrain = glGetUniformLocation(terrain_program, "light_colour");
+    GLuint location_light_position_terrain = glGetUniformLocation(terrain_program, "light_position");
+    GLuint location_height_factor_terrain = glGetUniformLocation(terrain_program, "height_factor");
+    GLuint location_player_position_terrain = glGetUniformLocation(terrain_program, "player_position");
+
+    GLuint heightmap = load_texture("res\\heightmap.jpg");
+
+    glUniform1i(glGetUniformLocation(terrain_program, "height_map"), 0);
+
 
     while(!glfwWindowShouldClose(window))
     {
@@ -214,41 +225,54 @@ int main(int argc, char *argv[])
         vec3f vup = matrix_vector_multiply(aeroplane_rotation, vec3f_create(0.0f, 1.0f, 0.0f));
         vec3f vback = vec3f_scalar_product(vforward, -1.0f);
 
+        if(glfwGetKey(window, GLFW_KEY_T) == GLFW_PRESS)
+        {
+            speed = AEROPLANE_SPEED * 5;
+        }
+        else
+        {
+            speed = AEROPLANE_SPEED;
+        }
+
         //printf("Forward: (%5.2f, %5.2f, %5.2f)\n", vforward.x, vforward.y, vforward.z);
+        aeroplane.position = vec3f_add(aeroplane.position, vec3f_scalar_product(vforward, elapsed * speed));
 
-        if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-        {
-            aeroplane.position = vec3f_add(aeroplane.position, vec3f_scalar_product(vforward, elapsed * speed));
-        }
         float inversion = 1.0f;
-        if(glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-        {
-            aeroplane.position = vec3f_subtract(aeroplane.position, vec3f_scalar_product(vforward, elapsed * speed));
-            inversion = -1.0f;
-        }
-
         if(glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
         {
             mat4f rotm;
-            create_rotation_matrix(&rotm, 0.0f, 30.0f * elapsed * inversion, 0.0f);
+            create_rotation_matrix(&rotm, 0.0f, 0.0, 30.0f * elapsed * inversion);
             aeroplane_rotation = matrix_multiply(aeroplane_rotation, rotm);
         }
-
         if(glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
         {
             mat4f rotm;
-            create_rotation_matrix(&rotm, 0.0f, -30.0f * elapsed * inversion, 0.0f);
+            create_rotation_matrix(&rotm, 0.0f, 0.0, -30.0f * elapsed * inversion);
             aeroplane_rotation = matrix_multiply(aeroplane_rotation, rotm);
         }
 
         if(glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS)
         {
             mat4f rotm;
-            create_rotation_matrix(&rotm, 30.0f * elapsed * inversion, 0.0f, 0.0f);
+            create_rotation_matrix(&rotm, 0.0f, 30.0f * elapsed * inversion, 0.0f);
             aeroplane_rotation = matrix_multiply(aeroplane_rotation, rotm);
         }
 
         if(glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS)
+        {
+            mat4f rotm;
+            create_rotation_matrix(&rotm, 0.0f, -30.0f * elapsed * inversion, 0.0f);
+            aeroplane_rotation = matrix_multiply(aeroplane_rotation, rotm);
+        }
+
+        if(glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
+        {
+            mat4f rotm;
+            create_rotation_matrix(&rotm, 30.0f * elapsed * inversion, 0.0f, 0.0f);
+            aeroplane_rotation = matrix_multiply(aeroplane_rotation, rotm);
+        }
+
+        if(glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
         {
             mat4f rotm;
             create_rotation_matrix(&rotm, -30.0f * elapsed * inversion, 0.0f, 0.0f);
@@ -291,20 +315,56 @@ int main(int argc, char *argv[])
         //draw
 
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+        //render terrain
 
-        glUseProgram(program);
+        glUseProgram(terrain_program);
+        glBindVertexArray(terrain_tile.mesh.vao);
+
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, heightmap);
+
+        glEnableVertexAttribArray(0);
+        glEnableVertexAttribArray(1);
+
+        create_model_matrix_entity(&terrain_tile.model_m, &terrain_tile);
 
 
+        glUniformMatrix4fv(location_projection_terrain, 1, GL_TRUE, proj_m.data);
+
+        glUniformMatrix4fv(location_model_terrain, 1, GL_TRUE, terrain_tile.model_m.data);
+        glUniformMatrix4fv(location_view_terrain, 1, GL_TRUE, view_m.data);
+
+        glUniform3f(location_light_position_terrain, light_position.x, light_position.y, light_position.z);
+        glUniform3f(location_light_colour_terrain, light_colour.x, light_colour.y, light_colour.z);
+        glUniform3f(location_player_position_terrain, aeroplane.position.x, aeroplane.position.y, aeroplane.position.z);
+
+
+        float elevation_factor = MAXM(0.0, time * 3.0f);
+        elevation_factor = MINM(elevation_factor, 15.0f);
+
+        glUniform1f(location_height_factor_terrain, elevation_factor);
+
+        glDrawElements(GL_TRIANGLES, terrain_tile.mesh.vertex_count, GL_UNSIGNED_INT, NULL);
+
+
+        glDisableVertexAttribArray(1);
+        glDisableVertexAttribArray(0);
+
+
+
+        //render aeroplanes
+        glUseProgram(aeroplane_program);
 
         glBindVertexArray(aeroplane.mesh.vao);
 
 
         glActiveTexture(GL_TEXTURE0);
         glBindTexture(GL_TEXTURE_2D, albedo_texture);
-
-
         glActiveTexture(GL_TEXTURE1);
-        glBindTexture(GL_TEXTURE_2D, noise_texture);
+        glBindTexture(GL_TEXTURE_2D, normal_texture);
+        glActiveTexture(GL_TEXTURE2);
+        glBindTexture(GL_TEXTURE_2D, metalness_texture);
+
 
         glEnableVertexAttribArray(0);
         glEnableVertexAttribArray(1);
@@ -329,6 +389,11 @@ int main(int argc, char *argv[])
         glDisableVertexAttribArray(0);
 
         glBindVertexArray(0);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, 0);
+        glActiveTexture(GL_TEXTURE2);
         glBindTexture(GL_TEXTURE_2D, 0);
         glfwSwapBuffers(window);
     }

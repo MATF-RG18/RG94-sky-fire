@@ -4,6 +4,98 @@
 
 #include <helpers.h>
 #include <constants.h>
+#include <models.h>
+
+mesh_t generate_plane_mesh(int u_complexity, int v_complexity, float width, float height)
+{
+    mesh_t m;
+    int i, j, count = 0;
+
+    int vcount = u_complexity * v_complexity;
+    int sqcount = (u_complexity - 1) * (v_complexity - 1);
+    int trcount = sqcount * 2;
+    int indices_count = trcount * 3;
+
+
+    float *data = malloc(vcount * sizeof(float) * 5);
+    int *indices = malloc(indices_count * sizeof(int));
+
+    for(i = 0; i < u_complexity; i++)
+    {
+        for(j = 0; j < v_complexity; j++)
+        {
+            int curr_vertex = i * v_complexity + j;
+            float *curr_vertexp = data + 5 * curr_vertex;
+
+            curr_vertexp[0] = (1.0f * i) / u_complexity * width - width / 2;
+            curr_vertexp[1] = 0;
+            curr_vertexp[2] = (1.0f * j) / v_complexity * height - height / 2;
+
+            curr_vertexp[3] = (1.0f * i) / u_complexity;
+            curr_vertexp[4] = (1.0f * j) / v_complexity;
+        }
+    }
+
+    int index = 0, up, vp;
+    int sq_modulo = v_complexity - 1;
+    for(i = 0; i < sqcount; i++)
+    {
+        up = i / sq_modulo;
+        vp = i % sq_modulo;
+
+        indices[index++] = up *v_complexity + vp + 1;
+        indices[index++] = up * v_complexity + vp;
+        indices[index++] = (up + 1) * v_complexity + vp;
+
+        indices[index++] = (up + 1) * v_complexity + vp;
+        indices[index++] = (up + 1) * v_complexity + vp + 1;
+        indices[index++] = up * v_complexity + vp + 1;
+
+    }
+
+    GLuint vao, vbo, ebo;
+    glGenVertexArrays(1, &vao);
+    glGenBuffers(1, &vbo);
+    glGenBuffers(1, &ebo);
+
+    glBindVertexArray(vao);
+    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glBufferData(GL_ARRAY_BUFFER, vcount * sizeof(float) * 5, data, GL_STATIC_DRAW);
+
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), NULL);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), 3 * sizeof(float));
+
+
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices_count * sizeof(int), indices, GL_STATIC_DRAW);
+
+    glBindVertexArray(0);
+    glBindBuffer(GL_ARRAY_BUFFER, 0);
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
+
+    m.vao = vao;
+    m.vertex_count = indices_count;
+    m.elements = 1;
+
+    return m;
+}
+
+GLuint load_texture(const char *path)
+{
+        int width, height, nrChannels;
+        unsigned char *data = stbi_load(path, &width, &height, &nrChannels, 0);
+        GLuint texture;
+        glGenTextures(1, &texture);
+        glBindTexture(GL_TEXTURE_2D, texture);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+        stbi_image_free(data);
+        return texture;
+}
 
 int file_size(const char *filepath)
 {

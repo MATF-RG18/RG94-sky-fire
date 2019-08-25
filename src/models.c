@@ -143,6 +143,7 @@ void load_wavefront_mesh_with_rotation(const char *filepath, mesh_t *m, vec3f ro
 
 	m -> vao = vao;
 	m -> vertex_count = vertex_indices.count;
+	m -> elements = 0;
 
 	glBindVertexArray(vao);
 

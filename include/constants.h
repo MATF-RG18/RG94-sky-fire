@@ -4,7 +4,11 @@
 #define WINDOW_WIDTH 1600
 #define WINDOW_HEIGHT 900
 
-#define PIf 3.14159265f
+#define PIf (3.14159265f)
+
+#define AEROPLANE_SPEED (5.0f)
+#define AEROPLANE_ROLL_SPEED (90.0f)
+#define AEROPLANE_TURN_SPEED (40.0f)
 
 
 
