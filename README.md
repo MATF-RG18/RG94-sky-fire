@@ -18,10 +18,15 @@ da se objekat i teren prikazuju u vidu mreze.
 
 #### Tastatura:
 **Q, E** - okret na levo, okret na desno
+
 **W, S** - kretanje ka dole, kretanje ka gore
+
 **A, D** - naginjanje na levo, naginjanje na desno
+
 **T** - ubrzanje
+
 **2** - prikaz terena u vidu mreze
+
 **1** - standardni prikaz terena (potpun)
 
 #### Mis:
